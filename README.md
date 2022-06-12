@@ -13,8 +13,6 @@ USAGE: `buildapk [SOURCE DIRECTORY] [OUTPUT APK NAME] [PACKAGE PATH] [KEYSTORE] 
 
 2. Paste the `buildapk()` function into your bashrc file, and then run `reset`.
 
-3. Run `buildapk` in the command line on your android project directory according to the command usage. 
-
 ```
 buildapk() { 
 if [ $1 = "help" ]
@@ -37,6 +35,8 @@ cd $1 && shopt -s extglob && eval "rm -rf !('AndroidManifest.xml'|'src'|'res'|'$
 fi
 }
 ```
+
+3. Run `buildapk` in the command line on your android project directory according to the command usage. 
 
 ## Generating a Keystore
 
