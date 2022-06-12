@@ -11,7 +11,9 @@ USAGE: `buildapk [SOURCE DIRECTORY] [OUTPUT APK NAME] [PACKAGE PATH] [KEYSTORE] 
 `PATH=$PATH:~/java-jdk/bin      
  PATH=$PATH:~/android-build-tools/build-tools/32.0.0`
 
-2. Paste the `buildapk()` function into your bashrc file, and then run `reset`:
+2. Paste the `buildapk()` function into your bashrc file, and then run `reset`.
+
+3. Run `buildapk` in the command line on your android project directory according to the command usage. 
 
 ```
 buildapk() { 
@@ -48,4 +50,4 @@ The Android Command line tools contains the binary `sdkmanager`. Once installed,
 
 ## Notes 
 
-* Relevant notes will show up here :) 
+* Run `buildapk help` to show usage details.
