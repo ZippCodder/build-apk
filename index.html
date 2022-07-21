@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  background: white;
+  width: 100%;
+  height: 100%;
+}
+
+img {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+}
+
+    </style>
+    <script type="text/javascript">
+    const canvas = document.querySelector("canvas");
+
+const gl = canvas.getContext("webgl2");
+
+const vertices = [
+  0.5, // tex
+  1, // tex
+  0, // coord
+  0.5, // coord
+  1.0, // coord
+  1, // tex
+  0, // tex
+  0.5, // coord
+  -0.5, // coord
+  1.0, // coord
+  0, // tex
+  0, // tex
+  -0.5, // coord
+  -0.5, // coord
+  1.0 // coord
+];
+
+let buff = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, buff);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+let vShaderSrc = `
+#version 100 
+
+attribute vec2 tex;
+attribute vec3 coords;
+
+varying vec2 tcoords;
+
+void main() {
+gl_Position = vec4(coords.x,coords.y,coords.z,1.0);
+ tcoords = tex;
+}
+`;
+
+let fShaderSrc = `
+#version 100 
+
+precision highp float;
+
+uniform sampler2D Texture;
+varying highp vec2 tcoords;
+
+void main() {
+ gl_FragColor = texture2D(Texture,tcoords);
+}
+`;
+
+async function init() {
+  let vShader = gl.createShader(gl.VERTEX_SHADER);
+  gl.shaderSource(vShader, vShaderSrc);
+  gl.compileShader(vShader);
+
+  let vl = gl.getShaderInfoLog(vShader);
+  if (vl.length > 0) console.log(vl);
+
+  let fShader = gl.createShader(gl.FRAGMENT_SHADER);
+  gl.shaderSource(fShader, fShaderSrc);
+  gl.compileShader(fShader);
+  //console.log(gl.getShaderParameter(fShader, gl.COMPILE_STATUS));
+
+  let fl = gl.getShaderInfoLog(fShader);
+  if (fl.length > 0) console.log(fl);
+
+  let program = gl.createProgram();
+  gl.attachShader(program, vShader);
+  gl.attachShader(program, fShader);
+
+  gl.linkProgram(program);
+  gl.useProgram(program);
+
+  let pl = gl.getProgramInfoLog(program);
+  if (pl.length > 0) console.log(pl);
+
+  /*
+  let img;
+
+  await fetch(
+    "https://upload.wikimedia.org/wikipedia/en/2/20/Openfolio_Square_bright_blue_logo_512x.png"
+  )
+    .then((i) => {
+      return i.arrayBuffer();
+    })
+    .then((b) => {
+      img = new Uint8Array(b);
+    })
+    .catch((err) => {
+      throw err;
+    }); */
+  //img = new Uint8Array([19, 225, 99, 255, 255, 0, 0, 218, 245, 127, 0, 168]);
+
+ // Create a texture.
+var texture = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_2D, texture);
+ 
+// Fill the texture with a 1x1 blue pixel.
+gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,new Uint8Array([0, 0, 255, 255]));
+ 
+// Asynchronously load an image
+var image = new Image();
+image.src = "qwefewf";
+image.addEventListener('load', function() {
+  // Now that the image has loaded make copy it to the texture.
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,gl.UNSIGNED_BYTE, image);
+  gl.generateMipmap(gl.TEXTURE_2D);
+});
+
+  const location = gl.getUniformLocation(program, "Texture");
+  gl.uniform1i(location, 0);
+
+  const attribLocations = {
+    tex: gl.getAttribLocation(program, "tex"),
+    coords: gl.getAttribLocation(program, "coords")
+  };
+
+  gl.vertexAttribPointer(attribLocations.tex, 2, gl.FLOAT, false, 20, 0);
+  gl.vertexAttribPointer(attribLocations.coords, 3, gl.FLOAT, false, 20, 8);
+  gl.enableVertexAttribArray(0);
+  gl.enableVertexAttribArray(1);
+
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+  console.log(gl.getError());
+}
+
+init();
+
+    </script>
+  </head>
+  <body>
+ <canvas width="2200" height="2200"></canvas>
+  </body>
+</html>
