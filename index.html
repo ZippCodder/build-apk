@@ -125,8 +125,9 @@ async function init() {
     }); */
   //img = new Uint8Array([19, 225, 99, 255, 255, 0, 0, 218, 245, 127, 0, 168]);
 
+  let texture = gl.createTexture();
+  
 function loadTexture() {
-  const texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
 
   // Because images have to be download over the internet
@@ -181,10 +182,13 @@ function loadTexture() {
     }
   };
   image.src = "https://zippcodder.github.io/build-apk/example/res/mipmap-nodpi/icon.png";
-
-  return texture;
 }
-
+  
+  loadTexture();
+  
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D,texture);
+  
   const location = gl.getUniformLocation(program, "Texture");
   gl.uniform1i(location, 0);
 
