@@ -184,6 +184,10 @@ function loadTexture() {
   image.src = "https://zippcodder.github.io/build-apk/example/res/mipmap-nodpi/icon.png";
 }
   
+  function isPowerOf2(value) {
+  return (value & (value - 1)) == 0;
+}
+  
   loadTexture();
   
   gl.activeTexture(gl.TEXTURE0);
