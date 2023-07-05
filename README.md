@@ -22,7 +22,7 @@ HLP=$"buildapk v1.0 - Commandline based APK build tool...";
 
 DESC=$"A tool used to build android APK files from scratch without use of gradle using the command line. Simply follow the usage guide and be aware that any invalid parameters will throw errors. After compilation all output files including the output apk will be generated inside the source directory of the project. For a signed apk, a keystore must be provided within the top level of the source directory. APK's generated with this tool are signed using a self-signed certificate."
 
-USG=$"USAGE: buildapk [SOURCE DIRECTORY] [OUTPUT APK NAME] [PACKAGE PATH] [KEYSTORE] [KEYSTORE ALIAS] [ENTRY FILE]"
+USG=$"USAGE: buildapk <SOURCE DIRECTORY> <OUTPUT APK NAME> <PACKAGE PATH> <KEYSTORE> <KEYSTORE ALIAS> <ENTRY FILE>"
 
 STR="${HLP}"$'\n\n'"${USG}"$'\n\n'"${DESC}"; 
 
